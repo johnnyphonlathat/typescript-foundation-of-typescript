@@ -103,7 +103,7 @@ type Order = {
   quantity: number,
   discount?: number,
 }
-const totalByStatusWithDiscount = (orders:Order[],targetStatus:OrderStatus) => {
+const totalByStatusWithDiscount = (orders:Order[],targetStatus: string) => {
 return orders.filter((order) => order.status === targetStatus)
 .reduce((total, order) => {
   const subtotal = order.price * order.quantity;
