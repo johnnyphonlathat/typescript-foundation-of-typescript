@@ -1,4 +1,17 @@
-const ordersSample = [
+// 1. ประกาศ type OrderStatus แบบ Union Type
+type OrderStatus = "pending" | "shipped" | "delivered" | "cancelled";
+
+// 2. ประกาศ type Order สำหรับออบเจกต์รายการสั่งซื้อ
+type Order = {
+  orderId: string;
+  status: OrderStatus;
+  productName: string;
+  price: number;
+  quantity: number;
+  discount?: number;
+};
+
+const ordersSample: Order[] = [
   {
     orderId: "ORD001",
     status: "pending",
@@ -93,7 +106,21 @@ const ordersSample = [
   },
 ];
 
-//Start Coding Here
+// 3. ฟังก์ชันคำนวณยอดรวมตามสถานะและหักส่วนลด (ถ้ามี)
+function totalByStatusWithDiscount(
+  orders: Order[],
+  targetStatus: OrderStatus
+): number {
+  return orders
+    .filter((order) => order.status === targetStatus)
+    .reduce((total, order) => {
+      const subtotal = order.price * order.quantity;
+      const discountAmount = order.discount ?? 0;
+      return total + (subtotal - discountAmount);
+    }, 0);
+}
+
+const orders = ordersSample;
 
 const totalShipped = totalByStatusWithDiscount(orders, "shipped");
 console.log("Total for shipped orders with discount:", totalShipped);
